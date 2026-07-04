@@ -8,7 +8,7 @@ import { LayoutDashboard, LineChart, MessageSquare, Settings, Flame, BrainCircui
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { profile, plan, chatHistory, ollamaOnline, checkOllamaStatus, fetchProfile, fetchPlan } = useFitnessStore();
+  const { profile, ollamaOnline, checkOllamaStatus, fetchProfile, fetchPlan } = useFitnessStore();
 
   useEffect(() => {
     // Initial fetch
@@ -21,7 +21,7 @@ export default function Navbar() {
       checkOllamaStatus();
     }, 10000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchProfile, fetchPlan, checkOllamaStatus]);
 
   // Calculate workout streak based on logs count/streak (can be fetched from profile/history)
   // Let's assume a streak state or compute from last logs

@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useFitnessStore } from '@/store/useFitnessStore';
-import { motion } from 'framer-motion';
 import { 
-  Play, Dumbbell, Flame, CheckCircle2, AlertTriangle, 
-  HelpCircle, RefreshCw, ChevronRight, Terminal, Heart, Scale, Sparkles 
+  Play, Dumbbell, CheckCircle2, AlertTriangle, 
+  RefreshCw, Terminal, Sparkles 
 } from 'lucide-react';
 import { MEDICAL_DISCLAIMER } from '@/lib/agent/guardrails';
 
@@ -15,7 +14,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const { 
     profile, plan, fetchProfile, fetchPlan, generatePlan, 
-    loading, error, warnings, developerTrace 
+    loading, warnings, developerTrace 
   } = useFitnessStore();
 
   const [showTrace, setShowTrace] = useState(false);
@@ -23,7 +22,7 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchProfile();
     fetchPlan();
-  }, []);
+  }, [fetchProfile, fetchPlan]);
 
   useEffect(() => {
     // If no profile exists, push back to onboarding home page

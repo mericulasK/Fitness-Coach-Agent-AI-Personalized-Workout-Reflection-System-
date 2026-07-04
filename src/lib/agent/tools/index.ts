@@ -1,4 +1,5 @@
 import exercisesData from '@/lib/data/exercises.json';
+import { PerformanceLogRow } from '../perception';
 
 export interface ExerciseDefinition {
   id: string;
@@ -110,7 +111,7 @@ export function generateWeeklyPlan(
     injuries: string[];
   },
   weekNumber: number,
-  previousPerformanceLogs: any[] = [],
+  previousPerformanceLogs: PerformanceLogRow[] = [],
   isDeload: boolean = false
 ): PlannedDay[] {
   const { goal, experienceLevel, daysPerWeek, equipment, injuries } = profile;
@@ -138,7 +139,7 @@ export function generateWeeklyPlan(
 
   // Determine Daily Split Foci based on training days
   let splits: string[] = [];
-  let muscleGroupsPerDay: Record<number, string[]> = {};
+  const muscleGroupsPerDay: Record<number, string[]> = {};
   
   if (daysPerWeek === 1) {
     splits = ['Full Body (Tüm Vücut)'];
@@ -211,7 +212,7 @@ export function generateWeeklyPlan(
               // RPE is perfect, maintain weight
               targetWeight = maxWeight;
             }
-          } catch (e) {
+          } catch {
             targetWeight = 10; // safe default
           }
         } else {
@@ -269,7 +270,7 @@ export function adjustPlanBasedOnFeedback(
 
     const avgRpe = feedback.rpe.reduce((a, b) => a + b, 0) / feedback.rpe.length;
     let newWeight = ex.targetWeight;
-    let newSets = ex.targetSets;
+    const newSets = ex.targetSets;
 
     if (avgRpe <= 5) {
       // Extremely easy, load heavier
@@ -364,7 +365,7 @@ export async function generateMotivationalMessage(
       const data = await res.json();
       return data.response.trim();
     }
-  } catch (err) {
+  } catch {
     // Silently log and drop to fallback
     console.log('Ollama generated motivational message skipped, falling back to local template.');
   }

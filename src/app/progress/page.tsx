@@ -9,7 +9,7 @@ import {
 import { Scale, Activity, Plus, Loader2, Dumbbell, Sparkles } from 'lucide-react';
 
 export default function ProgressPage() {
-  const { profile, loading } = useFitnessStore();
+  const { loading } = useFitnessStore();
   const [mounted, setMounted] = useState(false);
   const [weightInput, setWeightInput] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -17,12 +17,6 @@ export default function ProgressPage() {
   // Chart data state
   const [weightHistory, setWeightHistory] = useState<{ date: string; weightKg: number }[]>([]);
   const [volumeHistory, setVolumeHistory] = useState<{ date: string; volume: number }[]>([]);
-
-  // Prevent SSR hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-    fetchData();
-  }, []);
 
   const fetchData = async () => {
     try {
@@ -36,6 +30,18 @@ export default function ProgressPage() {
       console.error('Error fetching progress data:', err);
     }
   };
+
+  // Prevent SSR hydration mismatch
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 0);
+    const fetchTimer = setTimeout(() => {
+      fetchData();
+    }, 0);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(fetchTimer);
+    };
+  }, []);
 
   const handleLogWeight = async (e: React.FormEvent) => {
     e.preventDefault();

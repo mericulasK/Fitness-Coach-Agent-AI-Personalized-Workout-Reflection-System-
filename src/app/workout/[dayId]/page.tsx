@@ -5,8 +5,8 @@ import { useRouter, useParams } from 'next/navigation';
 import { useFitnessStore } from '@/store/useFitnessStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Play, CheckCircle2, Dumbbell, Timer, ArrowLeft, 
-  ChevronRight, ChevronLeft, Plus, Minus, Check, HelpCircle, AlertTriangle
+  CheckCircle2, Dumbbell, Timer, ArrowLeft, 
+  ChevronRight, Plus, Minus, Check
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -40,7 +40,7 @@ export default function WorkoutSessionPage() {
 
   useEffect(() => {
     fetchPlan();
-  }, []);
+  }, [fetchPlan]);
 
   // Initialize Sets state when plan is loaded
   useEffect(() => {

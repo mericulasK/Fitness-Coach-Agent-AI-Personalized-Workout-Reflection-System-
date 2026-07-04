@@ -2,16 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useFitnessStore } from '@/store/useFitnessStore';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Send, BrainCircuit, User, Bot, Sparkles, Loader2, 
-  HelpCircle, Dumbbell, AlertTriangle, ArrowDownCircle
+  Send, BrainCircuit, User, Bot
 } from 'lucide-react';
 
 export default function CoachChatPage() {
   const { 
     chatHistory, sendMessage, fetchChatHistory, 
-    ollamaOnline, selectedOllamaModel, loading 
+    ollamaOnline, selectedOllamaModel
   } = useFitnessStore();
 
   const [inputMsg, setInputMsg] = useState('');
@@ -21,7 +19,7 @@ export default function CoachChatPage() {
 
   useEffect(() => {
     fetchChatHistory();
-  }, []);
+  }, [fetchChatHistory]);
 
   // Scroll to bottom when new messages arrive
   useEffect(() => {

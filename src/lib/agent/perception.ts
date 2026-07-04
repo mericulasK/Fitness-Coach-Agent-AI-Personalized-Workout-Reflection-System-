@@ -50,8 +50,26 @@ export function normalizeProfile(raw: RawProfileInput): NormalizedProfile {
   };
 }
 
+export interface PerformanceLogRow {
+  id: string;
+  exerciseId: string;
+  actualSets: string;
+  actualReps: string;
+  actualWeight: string;
+  rpe: string;
+  completedAt: string;
+  notes?: string;
+  exerciseName: string;
+  muscleGroup: string;
+  targetWeight: number;
+  targetReps: number;
+  targetSets: number;
+  dayIndex: number;
+  weekNumber: number;
+}
+
 export interface HistoricalContext {
-  previousLogs: any[];
+  previousLogs: PerformanceLogRow[];
   exerciseVolumeHistory: Record<string, number[]>; // Exercise name -> array of volumes (weight * reps * sets)
   recentPlateaus: string[]; // List of exercises indicating plateaus
   streakDays: number;
@@ -69,7 +87,7 @@ export function getHistoricalContext(userId: string): HistoricalContext {
       WHERE wp.userId = ?
       ORDER BY wl.completedAt DESC
       LIMIT 100
-    `).all(userId) as any[];
+    `).all(userId) as PerformanceLogRow[];
 
     // 2. Estimate volume history per exercise
     const exerciseVolumeHistory: Record<string, number[]> = {};
@@ -97,7 +115,7 @@ export function getHistoricalContext(userId: string): HistoricalContext {
         }
         // Take max weight used in this workout
         weightHistory[name].push(Math.max(...weights, 0));
-      } catch (err) {
+      } catch {
         // Safe skip JSON parsing errors
       }
     });

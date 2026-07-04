@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server';
 import db from '@/lib/db/client';
 import { getProgressSnapshots, saveProgressSnapshot } from '@/lib/agent/memory';
 
+interface LogVolumeRow {
+  date: string;
+  actualReps: string;
+  actualWeight: string;
+}
+
 export async function GET() {
   try {
     const userId = 'default_user';
@@ -16,7 +22,7 @@ export async function GET() {
       JOIN WorkoutPlan wp ON wd.planId = wp.id
       WHERE wp.userId = ?
       ORDER BY date ASC
-    `).all(userId) as any[];
+    `).all(userId) as LogVolumeRow[];
 
     // Aggregate volume (sum of reps * weight for all sets) by date
     const volumeMap: Record<string, number> = {};
@@ -29,7 +35,7 @@ export async function GET() {
           total += (reps[i] || 0) * (weights[i] || 0);
         }
         volumeMap[row.date] = (volumeMap[row.date] || 0) + total;
-      } catch (e) {
+      } catch {
         // Skip
       }
     });
@@ -44,8 +50,9 @@ export async function GET() {
       weightHistory,
       volumeHistory
     });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 }
 
@@ -61,7 +68,8 @@ export async function POST(req: Request) {
     saveProgressSnapshot('default_user', parseFloat(weightKg), bodyMeasurements);
 
     return NextResponse.json({ success: true, message: 'İlerleme kaydı eklendi.' });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 }

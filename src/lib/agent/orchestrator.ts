@@ -194,7 +194,7 @@ export async function orchestrateWeeklyPlanGeneration(
               details: msg
             });
           }
-        } catch (e) {
+        } catch {
           // Safe ignore
         }
       }

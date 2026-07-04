@@ -4,19 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { useFitnessStore } from '@/store/useFitnessStore';
 import { 
   Settings, Database, BrainCircuit, ShieldAlert, 
-  Download, Upload, Moon, Sun, CheckCircle2, Loader2, RefreshCw 
+  Download, Upload, Moon, Sun, CheckCircle2, RefreshCw 
 } from 'lucide-react';
 
 export default function SettingsPage() {
   const {
-    profile,
     weightUnit,
     heightUnit,
     isDarkTheme,
     ollamaOnline,
     ollamaModels,
     selectedOllamaModel,
-    loading,
     setUnits,
     toggleTheme,
     setSelectedOllamaModel,
@@ -31,7 +29,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     checkOllamaStatus();
-  }, []);
+  }, [checkOllamaStatus]);
 
   const handleRefreshOllama = async () => {
     setRefreshing(true);
@@ -93,7 +91,7 @@ export default function SettingsPage() {
               {['kg', 'lb'].map(unit => (
                 <button
                   key={unit}
-                  onClick={() => setUnits(unit as any, heightUnit)}
+                  onClick={() => setUnits(unit as 'kg' | 'lb', heightUnit)}
                   className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${
                     weightUnit === unit
                       ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400'
@@ -112,7 +110,7 @@ export default function SettingsPage() {
               {['cm', 'inch'].map(unit => (
                 <button
                   key={unit}
-                  onClick={() => setUnits(weightUnit, unit as any)}
+                  onClick={() => setUnits(weightUnit, unit as 'cm' | 'inch')}
                   className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${
                     heightUnit === unit
                       ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400'

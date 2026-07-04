@@ -14,14 +14,14 @@ export async function GET() {
 
     if (res.ok) {
       const data = await res.json();
-      const models = data.models ? data.models.map((m: any) => m.name) : [];
+      const models = data.models ? (data.models as { name: string }[]).map((m) => m.name) : [];
       return NextResponse.json({
         success: true,
         online: true,
         models
       });
     }
-  } catch (err) {
+  } catch {
     // Ollama is offline or not installed
   }
 

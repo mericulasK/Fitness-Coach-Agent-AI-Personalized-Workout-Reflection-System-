@@ -7,8 +7,9 @@ export async function GET() {
   try {
     const history = getChatHistory('default_user');
     return NextResponse.json({ success: true, history });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 }
 
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
           const data = await res.json();
           assistantResponse = data.response.trim();
         }
-      } catch (err) {
+      } catch {
         console.log('Ollama chat response failed or timed out, falling back to rule-based engine.');
       }
     }
@@ -107,7 +108,8 @@ export async function POST(req: Request) {
       success: true,
       history
     });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 }

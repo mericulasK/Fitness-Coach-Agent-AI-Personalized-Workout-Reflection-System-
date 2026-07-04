@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { NormalizedProfile } from '@/lib/agent/perception';
+import { NormalizedProfile, RawProfileInput } from '@/lib/agent/perception';
 import { DbWorkoutPlan, ChatMsg } from '@/lib/agent/memory';
 import { DeveloperTraceStep } from '@/lib/agent/orchestrator';
 
@@ -29,7 +29,7 @@ interface FitnessState {
   clearError: () => void;
   
   fetchProfile: () => Promise<void>;
-  saveProfile: (profileData: any) => Promise<boolean>;
+  saveProfile: (profileData: RawProfileInput) => Promise<boolean>;
   fetchPlan: () => Promise<void>;
   generatePlan: (force?: boolean) => Promise<boolean>;
   logExercise: (logData: {
@@ -79,8 +79,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       if (data.success) {
         set({ profile: data.profile });
       }
-    } catch (err: any) {
-      set({ error: 'Profil yüklenemedi: ' + err.message });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      set({ error: 'Profil yüklenemedi: ' + msg });
     } finally {
       set({ loading: false });
     }
@@ -107,8 +108,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
         set({ error: data.errors?.join(', ') || 'Profil kaydedilemedi.' });
         return false;
       }
-    } catch (err: any) {
-      set({ error: 'Profil kaydedilirken hata oluştu: ' + err.message });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      set({ error: 'Profil kaydedilirken hata oluştu: ' + msg });
       return false;
     } finally {
       set({ loading: false });
@@ -123,8 +125,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       if (data.success) {
         set({ plan: data.plan });
       }
-    } catch (err: any) {
-      set({ error: 'Antrenman planı yüklenemedi: ' + err.message });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      set({ error: 'Antrenman planı yüklenemedi: ' + msg });
     } finally {
       set({ loading: false });
     }
@@ -150,8 +153,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
         set({ error: data.error || 'Plan oluşturulamadı.' });
         return false;
       }
-    } catch (err: any) {
-      set({ error: 'Plan oluşturulurken hata oluştu: ' + err.message });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      set({ error: 'Plan oluşturulurken hata oluştu: ' + msg });
       return false;
     } finally {
       set({ loading: false });
@@ -174,8 +178,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
         set({ error: data.error || 'Antrenman kaydedilemedi.' });
         return false;
       }
-    } catch (err: any) {
-      set({ error: 'Antrenman kaydedilirken hata oluştu: ' + err.message });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      set({ error: 'Antrenman kaydedilirken hata oluştu: ' + msg });
       return false;
     }
   },
@@ -187,7 +192,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       if (data.success) {
         set({ chatHistory: data.history || [] });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error('Sohbet geçmişi yüklenemedi:', err);
     }
   },
@@ -212,7 +217,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       if (data.success) {
         set({ chatHistory: data.history || [] });
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error('Mesaj gönderilemedi:', err);
     }
   },
@@ -230,7 +235,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
             : get().selectedOllamaModel
         });
       }
-    } catch (err) {
+    } catch {
       set({ ollamaOnline: false, ollamaModels: [] });
     }
   },
@@ -279,8 +284,8 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       }
 
       return true;
-    } catch (err) {
-      console.error('Yedek yükleme hatası:', err);
+    } catch (_err) {
+      console.error('Yedek yükleme hatası:', _err);
       return false;
     }
   }

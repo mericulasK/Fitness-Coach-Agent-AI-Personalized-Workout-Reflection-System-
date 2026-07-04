@@ -1,6 +1,77 @@
 import db from '../db/client';
 import { NormalizedProfile } from './perception';
 
+interface UserProfileRow {
+  id: string;
+  age: number;
+  gender: string;
+  heightCm: number;
+  weightKg: number;
+  goal: string;
+  experienceLevel: string;
+  daysPerWeek: number;
+  equipment: string;
+  injuries: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface WorkoutPlanRow {
+  id: string;
+  userId: string;
+  weekNumber: number;
+  startDate: string;
+  isDeloadWeek: number;
+  createdAt: string;
+}
+
+interface WorkoutDayRow {
+  id: string;
+  planId: string;
+  dayIndex: number;
+  focus: string;
+  status: string;
+}
+
+interface ExerciseRow {
+  id: string;
+  dayId: string;
+  exerciseName: string;
+  targetSets: number;
+  targetReps: number;
+  targetWeight: number;
+  muscleGroup: string;
+  equipment: string;
+  orderIndex: number;
+}
+
+interface WorkoutLogRow {
+  id: string;
+  exerciseId: string;
+  actualSets: string;
+  actualReps: string;
+  actualWeight: string;
+  rpe: string;
+  completedAt: string;
+  notes?: string;
+}
+
+interface ProgressSnapshotRow {
+  id: string;
+  userId: string;
+  date: string;
+  weightKg: number;
+  bodyMeasurements: string;
+}
+
+interface ChatMessageRow {
+  id: string;
+  userId: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+}
+
 // 1. User Profile Management
 export function saveUserProfile(profile: NormalizedProfile): void {
   const existing = db.prepare('SELECT id FROM UserProfile WHERE id = ?').get(profile.id);
@@ -50,7 +121,7 @@ export function saveUserProfile(profile: NormalizedProfile): void {
 }
 
 export function getUserProfile(userId: string = 'default_user'): NormalizedProfile | null {
-  const row = db.prepare('SELECT * FROM UserProfile WHERE id = ?').get(userId) as any;
+  const row = db.prepare('SELECT * FROM UserProfile WHERE id = ?').get(userId) as UserProfileRow | undefined;
   if (!row) return null;
 
   // Calculate BMI & TDEE on the fly
@@ -73,8 +144,8 @@ export function getUserProfile(userId: string = 'default_user'): NormalizedProfi
     gender: row.gender,
     heightCm: row.heightCm,
     weightKg: row.weightKg,
-    goal: row.goal,
-    experienceLevel: row.experienceLevel,
+    goal: row.goal as 'kas kütlesi' | 'yağ yakımı' | 'güç' | 'genel fitness' | 'dayanıklılık',
+    experienceLevel: row.experienceLevel as 'yeni başlayan' | 'orta' | 'ileri',
     daysPerWeek: row.daysPerWeek,
     equipment: JSON.parse(row.equipment),
     injuries: JSON.parse(row.injuries),
@@ -147,17 +218,17 @@ export function saveWorkoutPlan(plan: DbWorkoutPlan): void {
 }
 
 export function getActiveWorkoutPlan(userId: string = 'default_user'): DbWorkoutPlan | null {
-  const planRow = db.prepare('SELECT * FROM WorkoutPlan WHERE userId = ? ORDER BY createdAt DESC LIMIT 1').get(userId) as any;
+  const planRow = db.prepare('SELECT * FROM WorkoutPlan WHERE userId = ? ORDER BY createdAt DESC LIMIT 1').get(userId) as WorkoutPlanRow | undefined;
   if (!planRow) return null;
 
-  const days = db.prepare('SELECT * FROM WorkoutDay WHERE planId = ? ORDER BY dayIndex ASC').all(planRow.id) as any[];
+  const days = db.prepare('SELECT * FROM WorkoutDay WHERE planId = ? ORDER BY dayIndex ASC').all(planRow.id) as WorkoutDayRow[];
   
   const mappedDays = days.map(day => {
-    const exercises = db.prepare('SELECT * FROM Exercise WHERE dayId = ? ORDER BY orderIndex ASC').all(day.id) as any[];
+    const exercises = db.prepare('SELECT * FROM Exercise WHERE dayId = ? ORDER BY orderIndex ASC').all(day.id) as ExerciseRow[];
     
     const mappedExercises = exercises.map(ex => {
       // Find completed log if exists
-      const log = db.prepare('SELECT * FROM WorkoutLog WHERE exerciseId = ?').get(ex.id) as any;
+      const log = db.prepare('SELECT * FROM WorkoutLog WHERE exerciseId = ?').get(ex.id) as WorkoutLogRow | undefined;
       
       return {
         id: ex.id,
@@ -227,7 +298,7 @@ export function logExerciseCompletion(log: LogInput): void {
   );
 
   // Update WorkoutDay status if all exercises are logged
-  const exerciseRow = db.prepare('SELECT dayId FROM Exercise WHERE id = ?').get(log.exerciseId) as any;
+  const exerciseRow = db.prepare('SELECT dayId FROM Exercise WHERE id = ?').get(log.exerciseId) as ExerciseRow | undefined;
   if (exerciseRow) {
     const dayId = exerciseRow.dayId;
     const allExercises = db.prepare('SELECT id FROM Exercise WHERE dayId = ?').all(dayId) as { id: string }[];
@@ -248,7 +319,7 @@ export function logExerciseCompletion(log: LogInput): void {
 }
 
 // 4. Progress Snapshot
-export function saveProgressSnapshot(userId: string, weightKg: number, measurements?: any): void {
+export function saveProgressSnapshot(userId: string, weightKg: number, measurements?: unknown): void {
   const id = 'snap_' + Math.random().toString(36).substr(2, 9);
   const dateStr = new Date().toISOString().split('T')[0];
 
@@ -260,12 +331,13 @@ export function saveProgressSnapshot(userId: string, weightKg: number, measureme
 }
 
 export function getProgressSnapshots(userId: string): { date: string; weightKg: number }[] {
-  return db.prepare(`
+  const rows = db.prepare(`
     SELECT date, weightKg
     FROM ProgressSnapshot
     WHERE userId = ?
     ORDER BY date ASC
-  `).all(userId) as any[];
+  `).all(userId) as ProgressSnapshotRow[];
+  return rows.map(r => ({ date: r.date, weightKg: r.weightKg }));
 }
 
 // 5. Chat History
@@ -291,7 +363,7 @@ export function getChatHistory(userId: string): ChatMsg[] {
     WHERE userId = ?
     ORDER BY timestamp ASC
     LIMIT 50
-  `).all(userId) as any[];
+  `).all(userId) as ChatMessageRow[];
 
   return rows.map(r => ({
     role: r.role,

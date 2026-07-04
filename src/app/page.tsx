@@ -3,17 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFitnessStore } from '@/store/useFitnessStore';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   Dumbbell, User, Target, Calendar, AlertTriangle, 
   CheckCircle2, ChevronRight, ChevronLeft, Loader2, 
-  BrainCircuit, Sparkles, Heart, Weight
+  BrainCircuit, Sparkles, Weight
 } from 'lucide-react';
 import { MEDICAL_DISCLAIMER } from '@/lib/agent/guardrails';
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { profile, saveProfile, loading, error, clearError, developerTrace, warnings } = useFitnessStore();
+  const { profile, saveProfile, loading, error, clearError, developerTrace } = useFitnessStore();
   const [step, setStep] = useState(1);
   const totalSteps = 6;
 
@@ -117,21 +117,6 @@ export default function OnboardingPage() {
     );
   }
 
-  // Animation variants
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 100 : -100,
-      opacity: 0
-    }),
-    center: {
-      x: 0,
-      opacity: 1
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 100 : -100,
-      opacity: 0
-    })
-  };
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto py-10 w-full">
@@ -363,7 +348,7 @@ export default function OnboardingPage() {
                     ].map((g) => (
                       <button
                         key={g.key}
-                        onClick={() => setGoal(g.key as any)}
+                        onClick={() => setGoal(g.key as 'kas kütlesi' | 'yağ yakımı' | 'güç' | 'genel fitness' | 'dayanıklılık')}
                         className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                           goal === g.key
                             ? 'bg-emerald-500/10 border-emerald-500 glow-primary'
@@ -422,7 +407,7 @@ export default function OnboardingPage() {
                         ].map((exp) => (
                           <button
                             key={exp.key}
-                            onClick={() => setExperienceLevel(exp.key as any)}
+                            onClick={() => setExperienceLevel(exp.key as 'yeni başlayan' | 'orta' | 'ileri')}
                             className={`py-3 rounded-lg border text-xs font-medium transition-all ${
                               experienceLevel === exp.key
                                 ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400'
