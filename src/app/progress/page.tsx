@@ -31,17 +31,13 @@ export default function ProgressPage() {
     }
   };
 
-  // Prevent SSR hydration mismatch
+  // Prevent SSR hydration mismatch - call directly without setTimeout
   useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    const fetchTimer = setTimeout(() => {
-      fetchData();
-    }, 0);
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(fetchTimer);
-    };
+    setMounted(true);
+    fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const handleLogWeight = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -15,10 +15,10 @@ Değerlendiricilerin arayacağı şeyler: gerçek bir **agent mimarisi** (algıl
 # MUTLAK, KIRMIZI ÇİZGİ KURALLAR (ASLA İHLAL ETME)
 
 1. **HİÇBİR API KEY GEREKTİRMEYECEK.** OpenAI, Gemini, Anthropic, herhangi bir bulut LLM sağlayıcısı, herhangi bir "sign up" / "get your API key" adımı — YOK. `.env` dosyasında API key alanı bile olmayacak.
-2. **%100 LOCAL ÇALIŞACAK.** Uygulama internet bağlantısı olmadan (airplane mode'da) sıfırdan kurulup çalışabilmeli. Tek istisna: kullanıcı kendi isteğiyle, kendi bilgisayarına kurduğu **Ollama** (yerel LLM runtime, `http://localhost:3000`) varsa, ona bağlanabilir — bu da bir "cloud API key" değil, tamamen kullanıcının kendi makinesinde çalışan opsiyonel bir katman.
+2. **%100 LOCAL ÇALIŞACAK.** Uygulama internet bağlantısı olmadan (airplane mode'da) sıfırdan kurulup çalışabilmeli. Tek istisna: kullanıcı kendi isteğiyle, kendi bilgisayarına kurduğu **Ollama** (yerel LLM runtime, `http://localhost:11434`) varsa, ona bağlanabilir — bu da bir "cloud API key" değil, tamamen kullanıcının kendi makinesinde çalışan opsiyonel bir katman.
 3. **Zeka katmanı iki modlu olacak (kullanıcı kararı: ikisi de olsun):**
    - **Varsayılan mod (her zaman çalışır, kurulum gerektirmez):** Tamamen deterministik, kural/algoritma tabanlı bir "Agent Reasoning Engine". Aşağıda tarif edilen hesaplama ve karar algoritmalarıyla çalışır. Hiçbir LLM'e ihtiyaç duymaz.
-   - **Opsiyonel gelişmiş mod:** Eğer kullanıcının bilgisayarında Ollama çalışıyorsa (uygulama açılışta `http://localhost:3000/api/tags` adresine kısa timeout'lu bir istek atarak sessizce kontrol eder), ayarlar ekranında bunu tespit edip kullanıcıya "Yerel LLM bulundu: llama3 / phi3 / gemma2 vb." şeklinde gösterir ve **sadece doğal dil üretimi katmanında** (motivasyon mesajları, antrenman açıklamaları, coach sohbet arayüzü) kullanır. **Planın kendisi (hangi hareket, kaç set/tekrar, kaç kg) HER ZAMAN deterministik motor tarafından hesaplanır** — LLM asla sayısal/güvenlik kritik kararlar üretmez. Bu hem güvenlik hem tutarlılık için şart.
+   - **Opsiyonel gelişmiş mod:** Eğer kullanıcının bilgisayarında Ollama çalışıyorsa (uygulama açılışta `http://localhost:11434/api/tags` adresine kısa timeout'lu bir istek atarak sessizce kontrol eder), ayarlar ekranında bunu tespit edip kullanıcıya "Yerel LLM bulundu: llama3 / phi3 / gemma2 vb." şeklinde gösterir ve **sadece doğal dil üretimi katmanında** (motivasyon mesajları, antrenman açıklamaları, coach sohbet arayüzü) kullanır. **Planın kendisi (hangi hareket, kaç set/tekrar, kaç kg) HER ZAMAN deterministik motor tarafından hesaplanır** — LLM asla sayısal/güvenlik kritik kararlar üretmez. Bu hem güvenlik hem tutarlılık için şart.
    - Ollama yoksa uygulama sorunsuz şekilde şablon-tabanlı (template-based) doğal dil üretimine düşer (fallback), kullanıcı hiçbir hata/kesinti görmez.
 4. Hiçbir üçüncü parti ücretli servis, hiçbir telemetri/analytics çağrısı, hiçbir dış CDN'e zorunlu bağımlılık olmayacak (fontlar/ikonlar dahil yerel olarak paketlenecek).
 
@@ -33,7 +33,7 @@ Değerlendiricilerin arayacağı şeyler: gerçek bir **agent mimarisi** (algıl
 - **State management:** Zustand (client-side global state için)
 - **Veritabanı:** SQLite, `better-sqlite3` ile — tek dosya (`fitness_coach.db`), sıfır kurulum, sıfır ayrı sunucu süreci
 - **Backend mantığı:** Next.js Route Handlers (`app/api/.../route.ts`) — ayrı bir backend sunucusuna gerek yok, tek proje, tek `npm run dev`, tek `npm install`
-- **Opsiyonel LLM köprüsü:** Next.js server tarafından `fetch("http://localhost:3000/api/generate", ...)` — sadece server-side, hiçbir key yok, kısa timeout (ör. 800ms) ile bağlantı kontrolü
+- **Opsiyonel LLM köprüsü:** Next.js server tarafından `fetch("http://localhost:11434/api/generate", ...)` — sadece server-side, hiçbir key yok, kısa timeout (ör. 800ms) ile bağlantı kontrolü
 
 Bu yığının seçilme sebebi: tek dil (TypeScript), tek komutla ayağa kalkma, en hızlı şekilde çok kaliteli ve akıcı animasyonlu bir arayüz üretme kapasitesi.
 

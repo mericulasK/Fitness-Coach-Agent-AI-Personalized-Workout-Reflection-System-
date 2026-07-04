@@ -33,17 +33,18 @@ export default function OnboardingPage() {
   // Show agent processing log
   const [isProcessing, setIsProcessing] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    return () => clearTimeout(timer);
+    setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (profile && mounted) {
-      router.push('/dashboard');
+    if (mounted && profile && !redirecting && !isProcessing) {
+      setRedirecting(true);
+      router.replace('/dashboard');
     }
-  }, [profile, mounted, router]);
+  }, [profile, mounted, redirecting, isProcessing, router]);
 
   const handleEquipmentToggle = (eq: string) => {
     setSelectedEquipment(prev => 
@@ -102,36 +103,35 @@ export default function OnboardingPage() {
     const success = await saveProfile(profileData);
     
     if (success) {
-      // Allow user to read the agent logs before auto-forwarding
+      // Allow user to read the agent logs before auto-forwarding (4 second trace view)
+      // Set redirecting=true immediately to prevent the useEffect profile watcher
+      // from triggering a premature redirect while isProcessing is shown.
       setTimeout(() => {
         setIsProcessing(false);
-        router.push('/dashboard');
-      }, 4000); // 4 seconds delay so they can view the "brain console trace"
+        setRedirecting(true);
+        router.replace('/dashboard');
+      }, 4000);
     } else {
       setIsProcessing(false);
     }
   };
 
-  // SSR HYDRATION SAFETY: Return null until client is mounted.
-  // Zustand is a singleton — Navbar may have already fetched profile/plan
-  // before this component hydrates, causing server/client state divergence.
-  // Returning null produces zero DOM on both sides → zero mismatch.
-  if (!mounted) {
-    return null;
-  }
-
-  // After mount: check if profile already loaded (via Navbar's fetchProfile)
-  if (profile) {
+  // SSR HYDRATION SAFETY: Return a consistent loading skeleton until client is mounted.
+  // IMPORTANT: Both server and client render this same spinner initially (mounted=false on both).
+  // After hydration, useEffect fires, setMounted(true), and re-renders to the full wizard.
+  // This avoids the server/client DOM mismatch that caused the hydration error.
+  if (!mounted || redirecting || (profile && !isProcessing)) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
-          <p className="text-zinc-400 text-sm">Panelinize yönlendiriliyorsunuz...</p>
+          <p className="text-zinc-400 text-sm">
+            {redirecting || profile ? 'Panelinize yönlendiriliyorsunuz...' : 'Yükleniyor...'}
+          </p>
         </div>
       </div>
     );
   }
-
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto py-10 w-full">
