@@ -32,19 +32,14 @@ export default function OnboardingPage() {
   
   // Show agent processing log
   const [isProcessing, setIsProcessing] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (mounted && profile && !redirecting && !isProcessing) {
+    if (profile && !redirecting && !isProcessing) {
       setRedirecting(true);
       router.replace('/dashboard');
     }
-  }, [profile, mounted, redirecting, isProcessing, router]);
+  }, [profile, redirecting, isProcessing, router]);
 
   const handleEquipmentToggle = (eq: string) => {
     setSelectedEquipment(prev => 
@@ -120,7 +115,7 @@ export default function OnboardingPage() {
   // IMPORTANT: Both server and client render this same spinner initially (mounted=false on both).
   // After hydration, useEffect fires, setMounted(true), and re-renders to the full wizard.
   // This avoids the server/client DOM mismatch that caused the hydration error.
-  if (!mounted || redirecting || (profile && !isProcessing)) {
+  if (redirecting || (profile && !isProcessing)) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">

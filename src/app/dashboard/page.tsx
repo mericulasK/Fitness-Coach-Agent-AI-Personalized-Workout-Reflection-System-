@@ -18,11 +18,6 @@ export default function DashboardPage() {
   } = useFitnessStore();
 
   const [showTrace, setShowTrace] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
 
   useEffect(() => {
@@ -32,10 +27,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     // If no profile exists, push back to onboarding home page
-    if (mounted && !profile && !loading) {
+    if (!profile && !loading) {
       router.push('/');
     }
-  }, [mounted, profile, loading, router]);
+  }, [profile, loading, router]);
 
   const handleRegenerate = async () => {
     const success = await generatePlan(true);
@@ -44,7 +39,7 @@ export default function DashboardPage() {
     }
   };
 
-  if (!mounted || !profile || !plan) {
+  if (!profile || !plan) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">

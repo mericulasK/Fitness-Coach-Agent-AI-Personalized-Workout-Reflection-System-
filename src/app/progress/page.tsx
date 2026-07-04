@@ -10,7 +10,6 @@ import { Scale, Activity, Plus, Loader2, Dumbbell, Sparkles } from 'lucide-react
 
 export default function ProgressPage() {
   const { loading } = useFitnessStore();
-  const [mounted, setMounted] = useState(false);
   const [weightInput, setWeightInput] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -31,9 +30,7 @@ export default function ProgressPage() {
     }
   };
 
-  // Prevent SSR hydration mismatch - call directly without setTimeout
   useEffect(() => {
-    setMounted(true);
     fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -61,7 +58,7 @@ export default function ProgressPage() {
     }
   };
 
-  if (!mounted || loading) {
+  if (loading) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
