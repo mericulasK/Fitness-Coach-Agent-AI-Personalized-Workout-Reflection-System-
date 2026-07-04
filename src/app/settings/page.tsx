@@ -155,7 +155,7 @@ export default function SettingsPage() {
               Yerel LLM Entegrasyonu (Ollama)
             </h2>
             <p className="text-[10px] text-zinc-500 mt-0.5">
-              Yerel bilgisayarınızda çalışan Ollama sunucusuyla (port: 11434) bağlantıyı yönetin.
+              Yerel bilgisayarınızda çalışan Ollama sunucusuyla (port: 3000) bağlantıyı yönetin.
             </p>
           </div>
 

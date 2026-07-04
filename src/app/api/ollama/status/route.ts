@@ -5,7 +5,7 @@ export async function GET() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 800); // 800ms quick check timeout
 
-    const res = await fetch('http://localhost:11434/api/tags', {
+    const res = await fetch('http://localhost:3000/api/tags', {
       signal: controller.signal,
       cache: 'no-store'
     });
