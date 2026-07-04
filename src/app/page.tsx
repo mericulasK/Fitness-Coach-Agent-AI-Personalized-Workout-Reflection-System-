@@ -112,28 +112,15 @@ export default function OnboardingPage() {
     }
   };
 
+  // SSR HYDRATION SAFETY: Return null until client is mounted.
+  // Zustand is a singleton — Navbar may have already fetched profile/plan
+  // before this component hydrates, causing server/client state divergence.
+  // Returning null produces zero DOM on both sides → zero mismatch.
   if (!mounted) {
-    return (
-      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
-          <p className="text-zinc-400 text-sm">Yükleniyor...</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
-  if (loading && !profile) {
-    return (
-      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
-          <p className="text-zinc-400 text-sm">Verileriniz yükleniyor...</p>
-        </div>
-      </div>
-    );
-  }
-
+  // After mount: check if profile already loaded (via Navbar's fetchProfile)
   if (profile) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">

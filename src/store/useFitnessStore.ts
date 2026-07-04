@@ -63,7 +63,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
   ollamaModels: [],
   selectedOllamaModel: '',
   
-  loading: true,
+  loading: false,
   error: null,
 
   setUnits: (weight, height) => set({ weightUnit: weight, heightUnit: height }),
