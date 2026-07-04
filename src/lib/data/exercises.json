@@ -1,0 +1,682 @@
+[
+  {
+    "id": "barbell_bench_press",
+    "name": "Barbell Bench Press",
+    "muscleGroup": "Chest",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu", "bilek sorunu"]
+  },
+  {
+    "id": "dumbbell_bench_press",
+    "name": "Dumbbell Bench Press",
+    "muscleGroup": "Chest",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "incline_barbell_press",
+    "name": "Incline Barbell Press",
+    "muscleGroup": "Chest",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu", "bilek sorunu"]
+  },
+  {
+    "id": "incline_dumbbell_press",
+    "name": "Incline Dumbbell Press",
+    "muscleGroup": "Chest",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "decline_barbell_press",
+    "name": "Decline Barbell Press",
+    "muscleGroup": "Chest",
+    "equipment": "barbell",
+    "difficulty": "advanced",
+    "injuryWarnings": ["omuz sorunu", "bilek sorunu"]
+  },
+  {
+    "id": "dumbbell_fly",
+    "name": "Dumbbell Fly",
+    "muscleGroup": "Chest",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "cable_crossover",
+    "name": "Cable Crossover",
+    "muscleGroup": "Chest",
+    "equipment": "cables",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "pushup",
+    "name": "Şınav (Push-up)",
+    "muscleGroup": "Chest",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bilek sorunu", "omuz sorunu"]
+  },
+  {
+    "id": "incline_pushup",
+    "name": "Incline Push-up",
+    "muscleGroup": "Chest",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bilek sorunu"]
+  },
+  {
+    "id": "chest_dips",
+    "name": "Chest Dips",
+    "muscleGroup": "Chest",
+    "equipment": "bodyweight",
+    "difficulty": "advanced",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "pec_deck_fly",
+    "name": "Machine Pec Deck Fly",
+    "muscleGroup": "Chest",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "pullup",
+    "name": "Barfiks (Pull-up)",
+    "muscleGroup": "Back",
+    "equipment": "bodyweight",
+    "difficulty": "advanced",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "chinup",
+    "name": "Chin-up",
+    "muscleGroup": "Back",
+    "equipment": "bodyweight",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "lat_pulldown",
+    "name": "Lat Pulldown",
+    "muscleGroup": "Back",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "barbell_row",
+    "name": "Barbell Row",
+    "muscleGroup": "Back",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "one_arm_dumbbell_row",
+    "name": "One-Arm Dumbbell Row",
+    "muscleGroup": "Back",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "seated_cable_row",
+    "name": "Seated Cable Row",
+    "muscleGroup": "Back",
+    "equipment": "cables",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "deadlift",
+    "name": "Barbell Deadlift",
+    "muscleGroup": "Back",
+    "equipment": "barbell",
+    "difficulty": "advanced",
+    "injuryWarnings": ["bel sorunu", "diz sorunu"]
+  },
+  {
+    "id": "t_bar_row",
+    "name": "T-Bar Row",
+    "muscleGroup": "Back",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "hyperextension",
+    "name": "Hyperextension",
+    "muscleGroup": "Back",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "face_pull",
+    "name": "Face Pull",
+    "muscleGroup": "Back",
+    "equipment": "cables",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "barbell_shrug",
+    "name": "Barbell Shrug",
+    "muscleGroup": "Back",
+    "equipment": "barbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "dumbbell_shrug",
+    "name": "Dumbbell Shrug",
+    "muscleGroup": "Back",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "barbell_squat",
+    "name": "Barbell Squat",
+    "muscleGroup": "Legs",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["diz sorunu", "bel sorunu"]
+  },
+  {
+    "id": "dumbbell_goblet_squat",
+    "name": "Dumbbell Goblet Squat",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "bodyweight_squat",
+    "name": "Vücut Ağırlığı Squat",
+    "muscleGroup": "Legs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "leg_press",
+    "name": "Leg Press",
+    "muscleGroup": "Legs",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": ["diz sorunu", "bel sorunu"]
+  },
+  {
+    "id": "romanian_deadlift",
+    "name": "Romanian Deadlift",
+    "muscleGroup": "Legs",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "dumbbell_romanian_deadlift",
+    "name": "Dumbbell Romanian Deadlift",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "walking_lunges",
+    "name": "Walking Lunges",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "bulgarian_split_squat",
+    "name": "Bulgarian Split Squat",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "advanced",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "leg_extension",
+    "name": "Leg Extension",
+    "muscleGroup": "Legs",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "lying_leg_curl",
+    "name": "Lying Leg Curl",
+    "muscleGroup": "Legs",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "standing_calf_raise",
+    "name": "Standing Calf Raise",
+    "muscleGroup": "Legs",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "dumbbell_calf_raise",
+    "name": "Dumbbell Calf Raise",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "hip_thrust",
+    "name": "Barbell Hip Thrust",
+    "muscleGroup": "Legs",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "glute_bridge",
+    "name": "Glute Bridge",
+    "muscleGroup": "Legs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "overhead_press",
+    "name": "Barbell Overhead Press (OHP)",
+    "muscleGroup": "Shoulders",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu", "bel sorunu"]
+  },
+  {
+    "id": "dumbbell_shoulder_press",
+    "name": "Dumbbell Shoulder Press",
+    "muscleGroup": "Shoulders",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "arnold_press",
+    "name": "Arnold Press",
+    "muscleGroup": "Shoulders",
+    "equipment": "dumbbell",
+    "difficulty": "advanced",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "dumbbell_lateral_raise",
+    "name": "Dumbbell Lateral Raise",
+    "muscleGroup": "Shoulders",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "cable_lateral_raise",
+    "name": "Cable Lateral Raise",
+    "muscleGroup": "Shoulders",
+    "equipment": "cables",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "dumbbell_front_raise",
+    "name": "Dumbbell Front Raise",
+    "muscleGroup": "Shoulders",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "dumbbell_rear_delt_fly",
+    "name": "Dumbbell Rear Delt Fly",
+    "muscleGroup": "Shoulders",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "cable_rear_delt_fly",
+    "name": "Cable Rear Delt Fly",
+    "muscleGroup": "Shoulders",
+    "equipment": "cables",
+    "difficulty": "intermediate",
+    "injuryWarnings": []
+  },
+  {
+    "id": "barbell_upright_row",
+    "name": "Barbell Upright Row",
+    "muscleGroup": "Shoulders",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu", "bilek sorunu"]
+  },
+  {
+    "id": "barbell_curl",
+    "name": "Barbell Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "barbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bilek sorunu"]
+  },
+  {
+    "id": "dumbbell_curl",
+    "name": "Dumbbell Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "incline_dumbbell_curl",
+    "name": "Incline Dumbbell Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "hammer_curl",
+    "name": "Hammer Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bilek sorunu"]
+  },
+  {
+    "id": "preacher_curl",
+    "name": "Preacher Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bilek sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "concentration_curl",
+    "name": "Concentration Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "cable_curl",
+    "name": "Cable Bicep Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "cables",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "triceps_pushdown",
+    "name": "Cable Triceps Pushdown",
+    "muscleGroup": "Triceps",
+    "equipment": "cables",
+    "difficulty": "beginner",
+    "injuryWarnings": ["dirsek sorunu"]
+  },
+  {
+    "id": "overhead_dumbbell_extension",
+    "name": "Overhead Dumbbell Extension",
+    "muscleGroup": "Triceps",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "skull_crusher",
+    "name": "Lying Triceps Extension (Skull Crusher)",
+    "muscleGroup": "Triceps",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["dirsek sorunu", "bilek sorunu"]
+  },
+  {
+    "id": "close_grip_bench_press",
+    "name": "Close-Grip Bench Press",
+    "muscleGroup": "Triceps",
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bilek sorunu", "omuz sorunu"]
+  },
+  {
+    "id": "dumbbell_kickback",
+    "name": "Dumbbell Kickback",
+    "muscleGroup": "Triceps",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["dirsek sorunu"]
+  },
+  {
+    "id": "bench_dips",
+    "name": "Sehpa Dips (Bench Dips)",
+    "muscleGroup": "Triceps",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "plank",
+    "name": "Plank",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "crunch",
+    "name": "Mekik (Crunch)",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "reverse_crunch",
+    "name": "Ters Mekik (Reverse Crunch)",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "hanging_leg_raise",
+    "name": "Hanging Leg Raise",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "advanced",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "russian_twist",
+    "name": "Russian Twist",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "ab_wheel_rollout",
+    "name": "Ab Wheel Rollout",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "advanced",
+    "injuryWarnings": ["bel sorunu", "omuz sorunu"]
+  },
+  {
+    "id": "lying_leg_raise",
+    "name": "Lying Leg Raise",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "cable_crunch",
+    "name": "Cable Crunch",
+    "muscleGroup": "Abs",
+    "equipment": "cables",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "mountain_climber",
+    "name": "Mountain Climber",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bilek sorunu"]
+  },
+  {
+    "id": "superman",
+    "name": "Superman",
+    "muscleGroup": "Back",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "dumbbell_lunges",
+    "name": "Dumbbell Lunges",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "step_ups",
+    "name": "Step-ups",
+    "muscleGroup": "Legs",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["diz sorunu"]
+  },
+  {
+    "id": "glute_ham_raise",
+    "name": "Glute Ham Raise",
+    "muscleGroup": "Legs",
+    "equipment": "machine",
+    "difficulty": "advanced",
+    "injuryWarnings": []
+  },
+  {
+    "id": "dumbell_row_home",
+    "name": "Dumbbell Bent-Over Row",
+    "muscleGroup": "Back",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["bel sorunu"]
+  },
+  {
+    "id": "bodyweight_dips",
+    "name": "Dips",
+    "muscleGroup": "Triceps",
+    "equipment": "bodyweight",
+    "difficulty": "advanced",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "incline_dumbbell_fly",
+    "name": "Incline Dumbbell Fly",
+    "muscleGroup": "Chest",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "reverse_grip_lat_pulldown",
+    "name": "Reverse Grip Lat Pulldown",
+    "muscleGroup": "Back",
+    "equipment": "machine",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "hammer_strength_chest_press",
+    "name": "Hammer Strength Chest Press",
+    "muscleGroup": "Chest",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "cable_face_pull_high",
+    "name": "High Pulley Face Pull",
+    "muscleGroup": "Back",
+    "equipment": "cables",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "seated_machine_shoulder_press",
+    "name": "Seated Machine Shoulder Press",
+    "muscleGroup": "Shoulders",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu"]
+  },
+  {
+    "id": "dumbbell_hammer_curl_preacher",
+    "name": "Dumbbell Hammer Preacher Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["dirsek sorunu"]
+  },
+  {
+    "id": "machine_bicep_curl",
+    "name": "Machine Bicep Curl",
+    "muscleGroup": "Biceps",
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "injuryWarnings": []
+  },
+  {
+    "id": "dumbbell_overhead_triceps_extension_two_arms",
+    "name": "Two-Arms Dumbbell Overhead Extension",
+    "muscleGroup": "Triceps",
+    "equipment": "dumbbell",
+    "difficulty": "beginner",
+    "injuryWarnings": ["omuz sorunu", "dirsek sorunu"]
+  },
+  {
+    "id": "lying_dumbbell_skull_crusher",
+    "name": "Dumbbell Skull Crusher",
+    "muscleGroup": "Triceps",
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["dirsek sorunu"]
+  },
+  {
+    "id": "cable_overhead_triceps_extension",
+    "name": "Cable Overhead Triceps Extension",
+    "muscleGroup": "Triceps",
+    "equipment": "cables",
+    "difficulty": "intermediate",
+    "injuryWarnings": ["dirsek sorunu", "omuz sorunu"]
+  },
+  {
+    "id": "sit_up",
+    "name": "Sit-up",
+    "muscleGroup": "Abs",
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "injuryWarnings": ["bel sorunu"]
+  }
+]
