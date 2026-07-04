@@ -63,7 +63,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
   ollamaModels: [],
   selectedOllamaModel: '',
   
-  loading: false,
+  loading: true,
   error: null,
 
   setUnits: (weight, height) => set({ weightUnit: weight, heightUnit: height }),
@@ -72,7 +72,10 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
   clearError: () => set({ error: null }),
 
   fetchProfile: async () => {
-    set({ loading: true, error: null });
+    const hasData = !!get().profile;
+    if (!hasData) {
+      set({ loading: true, error: null });
+    }
     try {
       const res = await fetch('/api/profile');
       const data = await res.json();
@@ -81,9 +84,13 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      set({ error: 'Profil yüklenemedi: ' + msg });
+      if (!hasData) {
+        set({ error: 'Profil yüklenemedi: ' + msg });
+      }
     } finally {
-      set({ loading: false });
+      if (!hasData) {
+        set({ loading: false });
+      }
     }
   },
 
@@ -118,7 +125,10 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
   },
 
   fetchPlan: async () => {
-    set({ loading: true, error: null });
+    const hasData = !!get().plan;
+    if (!hasData) {
+      set({ loading: true, error: null });
+    }
     try {
       const res = await fetch('/api/plan/today');
       const data = await res.json();
@@ -127,9 +137,13 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      set({ error: 'Antrenman planı yüklenemedi: ' + msg });
+      if (!hasData) {
+        set({ error: 'Antrenman planı yüklenemedi: ' + msg });
+      }
     } finally {
-      set({ loading: false });
+      if (!hasData) {
+        set({ loading: false });
+      }
     }
   },
 

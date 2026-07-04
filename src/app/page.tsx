@@ -106,6 +106,17 @@ export default function OnboardingPage() {
     }
   };
 
+  if (loading && !profile) {
+    return (
+      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+          <p className="text-zinc-400 text-sm">Verileriniz yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (profile) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
