@@ -32,12 +32,18 @@ export default function OnboardingPage() {
   
   // Show agent processing log
   const [isProcessing, setIsProcessing] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (profile) {
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (profile && mounted) {
       router.push('/dashboard');
     }
-  }, [profile, router]);
+  }, [profile, mounted, router]);
 
   const handleEquipmentToggle = (eq: string) => {
     setSelectedEquipment(prev => 
@@ -105,6 +111,17 @@ export default function OnboardingPage() {
       setIsProcessing(false);
     }
   };
+
+  if (!mounted) {
+    return (
+      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+          <p className="text-zinc-400 text-sm">Yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (loading && !profile) {
     return (
