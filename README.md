@@ -22,7 +22,7 @@ npm install
 npm run dev
 ```
 
-You can open the application by navigating to [http://localhost:3000](http://localhost:3000) in your browser.
+You can open the application by navigating to [http://localhost:3001](http://localhost:3001) in your browser.
 
 ---
 
