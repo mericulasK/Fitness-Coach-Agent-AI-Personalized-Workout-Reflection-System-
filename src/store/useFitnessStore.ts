@@ -18,7 +18,7 @@ interface FitnessState {
   ollamaModels: string[];
   selectedOllamaModel: string;
   
-  // UI States
+  // UI States — separate flags to avoid race conditions
   loading: boolean;
   error: string | null;
   profileFetched: boolean;
@@ -81,18 +81,18 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
 
   fetchProfile: async () => {
     if (get().profileFetched) return;
-    set({ loading: true, error: null });
     try {
       const res = await fetch('/api/profile');
       const data = await res.json();
       if (data.success) {
-        set({ profile: data.profile });
+        set({ profile: data.profile, profileFetched: true });
+      } else {
+        set({ profileFetched: true });
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      set({ error: 'Profil yüklenemedi: ' + msg });
-    } finally {
-      set({ loading: false, profileFetched: true });
+      console.error('Profil yüklenemedi:', msg);
+      set({ profileFetched: true });
     }
   },
 
@@ -112,36 +112,35 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
           developerTrace: data.trace || [],
           warnings: data.warnings || [],
           profileFetched: true,
-          planFetched: true
+          planFetched: true,
+          loading: false
         });
         return true;
       } else {
-        set({ error: data.errors?.join(', ') || 'Profil kaydedilemedi.' });
+        set({ error: data.errors?.join(', ') || 'Profil kaydedilemedi.', loading: false });
         return false;
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      set({ error: 'Profil kaydedilirken hata oluştu: ' + msg });
+      set({ error: 'Profil kaydedilirken hata oluştu: ' + msg, loading: false });
       return false;
-    } finally {
-      set({ loading: false });
     }
   },
 
   fetchPlan: async () => {
     if (get().planFetched) return;
-    set({ loading: true, error: null });
     try {
       const res = await fetch('/api/plan/today');
       const data = await res.json();
       if (data.success) {
-        set({ plan: data.plan });
+        set({ plan: data.plan, planFetched: true });
+      } else {
+        set({ planFetched: true });
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      set({ error: 'Antrenman planı yüklenemedi: ' + msg });
-    } finally {
-      set({ loading: false, planFetched: true });
+      console.error('Plan yüklenemedi:', msg);
+      set({ planFetched: true });
     }
   },
 
@@ -159,19 +158,18 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
           plan: data.plan,
           developerTrace: data.trace || [],
           warnings: data.warnings || [],
-          planFetched: true
+          planFetched: true,
+          loading: false
         });
         return true;
       } else {
-        set({ error: data.error || 'Plan oluşturulamadı.' });
+        set({ error: data.error || 'Plan oluşturulamadı.', loading: false });
         return false;
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      set({ error: 'Plan oluşturulurken hata oluştu: ' + msg });
+      set({ error: 'Plan oluşturulurken hata oluştu: ' + msg, loading: false });
       return false;
-    } finally {
-      set({ loading: false });
     }
   },
 
@@ -283,7 +281,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
         planFetched: true
       });
 
-      // Commit profile and plan to local database via API or directly if needed
+      // Commit profile and plan to local database via API
       await fetch('/api/profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useFitnessStore } from '@/store/useFitnessStore';
 import { 
   Play, Dumbbell, CheckCircle2, AlertTriangle, 
-  RefreshCw, Terminal, Sparkles 
+  RefreshCw, Terminal, Sparkles, Loader2
 } from 'lucide-react';
 import { MEDICAL_DISCLAIMER } from '@/lib/agent/guardrails';
 
@@ -14,36 +14,69 @@ export default function DashboardPage() {
   const router = useRouter();
   const { 
     profile, plan, fetchProfile, fetchPlan, generatePlan, 
-    loading, warnings, developerTrace, planFetched 
+    loading, warnings, developerTrace, planFetched, profileFetched
   } = useFitnessStore();
 
   const [showTrace, setShowTrace] = useState(false);
-
+  const [planGenerating, setPlanGenerating] = useState(false);
 
   useEffect(() => {
     fetchProfile();
     fetchPlan();
   }, [fetchProfile, fetchPlan]);
 
+  // Redirect to onboarding if no profile exists
   useEffect(() => {
-    if (profile && planFetched && !plan && !loading) {
-      generatePlan();
+    if (profileFetched && !profile) {
+      router.replace('/');
     }
-  }, [profile, planFetched, plan, loading, generatePlan]);
+  }, [profileFetched, profile, router]);
+
+  // Auto-generate plan if profile exists but no plan
+  useEffect(() => {
+    if (profile && planFetched && !plan && !planGenerating) {
+      setPlanGenerating(true);
+      generatePlan().finally(() => setPlanGenerating(false));
+    }
+  }, [profile, planFetched, plan, planGenerating, generatePlan]);
 
   const handleRegenerate = async () => {
-    const success = await generatePlan(true);
-    if (success) {
-      fetchPlan();
-    }
+    setPlanGenerating(true);
+    await generatePlan(true);
+    setPlanGenerating(false);
   };
 
-  if (!profile || !plan) {
+  // Show loading while profile is being checked
+  if (!profileFetched) {
+    return (
+      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+          <p className="text-zinc-400 text-sm">Profil yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If no profile, show redirecting state
+  if (!profile) {
+    return (
+      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+          <p className="text-zinc-400 text-sm">Kurulum sayfasına yönlendiriliyorsunuz...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show plan loading
+  if (!plan) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
           <Dumbbell className="h-8 w-8 animate-spin text-emerald-500" />
-          <p className="text-zinc-400 text-sm">Verileriniz yükleniyor...</p>
+          <p className="text-zinc-400 text-sm">Antrenman planınız hazırlanıyor...</p>
         </div>
       </div>
     );
@@ -166,7 +199,7 @@ export default function DashboardPage() {
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 text-xs font-bold text-white bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-all cursor-pointer"
               >
                 Yeni Haftayı Başlat
-                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`h-4 w-4 ${loading || planGenerating ? 'animate-spin' : ''}`} />
               </button>
             )}
 

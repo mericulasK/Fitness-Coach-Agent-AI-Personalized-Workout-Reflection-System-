@@ -14,10 +14,36 @@ import { MEDICAL_DISCLAIMER } from '@/lib/agent/guardrails';
 export default function OnboardingPage() {
   const router = useRouter();
   const { 
-    profile, saveProfile, loading, error, clearError, developerTrace,
-    setIsOnboardingProcessing 
+    profile, profileFetched, fetchProfile, fetchPlan,
+    saveProfile, loading, error, clearError, developerTrace,
+    setIsOnboardingProcessing, isOnboardingProcessing
   } = useFitnessStore();
   const [step, setStep] = useState(1);
+
+  // Fetch profile on mount
+  useEffect(() => {
+    fetchProfile();
+    fetchPlan();
+  }, [fetchProfile, fetchPlan]);
+
+  // Redirect to dashboard if profile exists and not in onboarding
+  useEffect(() => {
+    if (profileFetched && profile && !isOnboardingProcessing) {
+      router.replace('/dashboard');
+    }
+  }, [profileFetched, profile, isOnboardingProcessing, router]);
+
+  // Show nothing while checking profile (prevents flash of onboarding form)
+  if (!profileFetched || (profile && !isOnboardingProcessing)) {
+    return (
+      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+          <p className="text-zinc-400 text-sm font-medium">Profil kontrol ediliyor...</p>
+        </div>
+      </div>
+    );
+  }
   const totalSteps = 6;
 
   // Wizard state variables
