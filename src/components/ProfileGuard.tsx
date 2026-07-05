@@ -17,6 +17,19 @@ export default function ProfileGuard({ children }: { children: React.ReactNode }
     fetchPlan();
   }, [fetchProfile, fetchPlan]);
 
+  const hasProfile = !!profile;
+
+  // Handle redirects in useEffect to prevent "Cannot update a component while rendering a different component" error
+  useEffect(() => {
+    if (!mounted || !profileFetched) return;
+
+    if (!hasProfile && pathname !== '/') {
+      router.replace('/');
+    } else if (hasProfile && pathname === '/' && !isOnboardingProcessing) {
+      router.replace('/dashboard');
+    }
+  }, [mounted, profileFetched, hasProfile, pathname, isOnboardingProcessing, router]);
+
   // SSR Hydration safety
   if (!mounted) {
     return (
@@ -41,12 +54,8 @@ export default function ProfileGuard({ children }: { children: React.ReactNode }
     );
   }
 
-  const hasProfile = !!profile;
-
-  // Routing checks
+  // If redirect is needed, show the spinner while the router transitions
   if (!hasProfile && pathname !== '/') {
-    // No profile, trying to access a restricted page -> redirect to onboarding
-    router.replace('/');
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
@@ -58,8 +67,6 @@ export default function ProfileGuard({ children }: { children: React.ReactNode }
   }
 
   if (hasProfile && pathname === '/' && !isOnboardingProcessing) {
-    // Already has profile, trying to access onboarding -> redirect to dashboard
-    router.replace('/dashboard');
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">

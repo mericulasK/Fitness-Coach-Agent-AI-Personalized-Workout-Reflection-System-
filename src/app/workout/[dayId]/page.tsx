@@ -295,6 +295,7 @@ export default function WorkoutSessionPage() {
                 strokeWidth="4"
                 fill="transparent"
                 strokeDasharray={strokeCircumference}
+                initial={{ strokeDashoffset: strokeCircumference }}
                 animate={{ strokeDashoffset }}
                 transition={{ duration: 1, ease: 'linear' }}
               />
