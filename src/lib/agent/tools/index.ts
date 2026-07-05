@@ -348,7 +348,7 @@ export async function generateMotivationalMessage(
     const prompt = `Sen fitness koçu yapay zekasın. Kullanıcı adı: ${context.name}, hedefleri: ${context.goal}, güncel serisi (streak): ${context.streak} gün. 
     Kullanıcıya Türkçe dilinde, samimi, motive edici ve profesyonel kısa bir (maksimum 2-3 cümle) antrenman öncesi motivasyon mesajı yaz.`;
 
-    const res = await fetch('http://localhost:11434/api/generate', {
+    const res = await fetch('http://127.0.0.1:11434/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

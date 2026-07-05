@@ -13,7 +13,10 @@ import { MEDICAL_DISCLAIMER } from '@/lib/agent/guardrails';
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { profile, saveProfile, loading, error, clearError, developerTrace } = useFitnessStore();
+  const { 
+    profile, saveProfile, loading, error, clearError, developerTrace,
+    setIsOnboardingProcessing 
+  } = useFitnessStore();
   const [step, setStep] = useState(1);
   const totalSteps = 6;
 
@@ -32,14 +35,6 @@ export default function OnboardingPage() {
   
   // Show agent processing log
   const [isProcessing, setIsProcessing] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
-
-  useEffect(() => {
-    if (profile && !redirecting && !isProcessing) {
-      setRedirecting(true);
-      router.replace('/dashboard');
-    }
-  }, [profile, redirecting, isProcessing, router]);
 
   const handleEquipmentToggle = (eq: string) => {
     setSelectedEquipment(prev => 
@@ -80,6 +75,7 @@ export default function OnboardingPage() {
   const handleFinish = async () => {
     clearError();
     setIsProcessing(true);
+    setIsOnboardingProcessing(true);
     
     const profileData = {
       id: 'default_user',
@@ -99,34 +95,18 @@ export default function OnboardingPage() {
     
     if (success) {
       // Allow user to read the agent logs before auto-forwarding (4 second trace view)
-      // Set redirecting=true immediately to prevent the useEffect profile watcher
-      // from triggering a premature redirect while isProcessing is shown.
       setTimeout(() => {
         setIsProcessing(false);
-        setRedirecting(true);
+        setIsOnboardingProcessing(false);
         router.replace('/dashboard');
       }, 4000);
     } else {
       setIsProcessing(false);
+      setIsOnboardingProcessing(false);
     }
   };
 
-  // SSR HYDRATION SAFETY: Return a consistent loading skeleton until client is mounted.
-  // IMPORTANT: Both server and client render this same spinner initially (mounted=false on both).
-  // After hydration, useEffect fires, setMounted(true), and re-renders to the full wizard.
-  // This avoids the server/client DOM mismatch that caused the hydration error.
-  if (redirecting || (profile && !isProcessing)) {
-    return (
-      <div className="flex flex-1 items-center justify-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
-          <p className="text-zinc-400 text-sm">
-            {redirecting || profile ? 'Panelinize yönlendiriliyorsunuz...' : 'Yükleniyor...'}
-          </p>
-        </div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center max-w-2xl mx-auto py-10 w-full">

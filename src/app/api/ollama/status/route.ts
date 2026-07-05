@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 800); // 800ms quick check timeout
+    const timeoutId = setTimeout(() => controller.abort(), 150); // 150ms quick check timeout
 
-    const res = await fetch('http://localhost:11434/api/tags', {
+    const res = await fetch('http://127.0.0.1:11434/api/tags', {
       signal: controller.signal,
       cache: 'no-store'
     });

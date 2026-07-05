@@ -43,4 +43,5 @@ next-env.d.ts
 # local sqlite database
 fitness_coach.db
 fitness_coach.db-journal
-
+fitness_coach.db-shm
+fitness_coach.db-wal

@@ -21,12 +21,16 @@ interface FitnessState {
   // UI States
   loading: boolean;
   error: string | null;
-
+  profileFetched: boolean;
+  planFetched: boolean;
+  isOnboardingProcessing: boolean;
+  
   // Setters & Actions
   setUnits: (weight: 'kg' | 'lb', height: 'cm' | 'inch') => void;
   toggleTheme: () => void;
   setSelectedOllamaModel: (model: string) => void;
   clearError: () => void;
+  setIsOnboardingProcessing: (val: boolean) => void;
   
   fetchProfile: () => Promise<void>;
   saveProfile: (profileData: RawProfileInput) => Promise<boolean>;
@@ -65,17 +69,19 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
   
   loading: false,
   error: null,
+  profileFetched: false,
+  planFetched: false,
+  isOnboardingProcessing: false,
 
   setUnits: (weight, height) => set({ weightUnit: weight, heightUnit: height }),
   toggleTheme: () => set((state) => ({ isDarkTheme: !state.isDarkTheme })),
   setSelectedOllamaModel: (model) => set({ selectedOllamaModel: model }),
   clearError: () => set({ error: null }),
+  setIsOnboardingProcessing: (val) => set({ isOnboardingProcessing: val }),
 
   fetchProfile: async () => {
-    const hasData = !!get().profile;
-    if (!hasData) {
-      set({ loading: true, error: null });
-    }
+    if (get().profileFetched) return;
+    set({ loading: true, error: null });
     try {
       const res = await fetch('/api/profile');
       const data = await res.json();
@@ -84,13 +90,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      if (!hasData) {
-        set({ error: 'Profil yüklenemedi: ' + msg });
-      }
+      set({ error: 'Profil yüklenemedi: ' + msg });
     } finally {
-      if (!hasData) {
-        set({ loading: false });
-      }
+      set({ loading: false, profileFetched: true });
     }
   },
 
@@ -108,7 +110,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
           profile: data.profile,
           plan: data.plan,
           developerTrace: data.trace || [],
-          warnings: data.warnings || []
+          warnings: data.warnings || [],
+          profileFetched: true,
+          planFetched: true
         });
         return true;
       } else {
@@ -125,10 +129,8 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
   },
 
   fetchPlan: async () => {
-    const hasData = !!get().plan;
-    if (!hasData) {
-      set({ loading: true, error: null });
-    }
+    if (get().planFetched) return;
+    set({ loading: true, error: null });
     try {
       const res = await fetch('/api/plan/today');
       const data = await res.json();
@@ -137,13 +139,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      if (!hasData) {
-        set({ error: 'Antrenman planı yüklenemedi: ' + msg });
-      }
+      set({ error: 'Antrenman planı yüklenemedi: ' + msg });
     } finally {
-      if (!hasData) {
-        set({ loading: false });
-      }
+      set({ loading: false, planFetched: true });
     }
   },
 
@@ -160,7 +158,8 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
         set({ 
           plan: data.plan,
           developerTrace: data.trace || [],
-          warnings: data.warnings || []
+          warnings: data.warnings || [],
+          planFetched: true
         });
         return true;
       } else {
@@ -186,7 +185,7 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
       });
       const data = await res.json();
       if (data.success) {
-        set({ plan: data.plan });
+        set({ plan: data.plan, planFetched: true });
         return true;
       } else {
         set({ error: data.error || 'Antrenman kaydedilemedi.' });
@@ -279,7 +278,9 @@ export const useFitnessStore = create<FitnessState>((set, get) => ({
         weightUnit: backup.weightUnit || 'kg',
         heightUnit: backup.heightUnit || 'cm',
         isDarkTheme: backup.isDarkTheme !== undefined ? backup.isDarkTheme : true,
-        chatHistory: backup.chatHistory || []
+        chatHistory: backup.chatHistory || [],
+        profileFetched: true,
+        planFetched: true
       });
 
       // Commit profile and plan to local database via API or directly if needed

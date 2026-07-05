@@ -22,7 +22,7 @@ export default function WorkoutSessionPage() {
   const params = useParams();
   const dayId = params.dayId as string;
 
-  const { plan, fetchPlan, logExercise, loading } = useFitnessStore();
+  const { plan, fetchPlan, logExercise, loading, planFetched } = useFitnessStore();
 
   const [activeExIdx, setActiveExIdx] = useState(0);
   
@@ -41,6 +41,12 @@ export default function WorkoutSessionPage() {
   useEffect(() => {
     fetchPlan();
   }, [fetchPlan]);
+
+  useEffect(() => {
+    if (planFetched && !plan && !loading) {
+      router.push('/dashboard');
+    }
+  }, [planFetched, plan, loading, router]);
 
   // Initialize Sets state when plan is loaded
   useEffect(() => {

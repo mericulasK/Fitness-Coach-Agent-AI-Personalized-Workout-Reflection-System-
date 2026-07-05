@@ -9,7 +9,7 @@ import {
 import { Scale, Activity, Plus, Loader2, Dumbbell, Sparkles } from 'lucide-react';
 
 export default function ProgressPage() {
-  const { loading } = useFitnessStore();
+  const [localLoading, setLocalLoading] = useState(true);
   const [weightInput, setWeightInput] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -27,6 +27,8 @@ export default function ProgressPage() {
       }
     } catch (err) {
       console.error('Error fetching progress data:', err);
+    } finally {
+      setLocalLoading(false);
     }
   };
 
@@ -58,7 +60,7 @@ export default function ProgressPage() {
     }
   };
 
-  if (loading) {
+  if (localLoading) {
     return (
       <div className="flex flex-1 items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">

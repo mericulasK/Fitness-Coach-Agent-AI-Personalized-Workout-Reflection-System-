@@ -15,6 +15,12 @@ class DbClient {
       // Enable foreign key constraints in SQLite
       DbClient.instance.pragma('foreign_keys = ON');
       
+      // Enable WAL (Write-Ahead Logging) mode for concurrent reader/writer support
+      DbClient.instance.pragma('journal_mode = WAL');
+      
+      // Set busy timeout to 5 seconds to prevent locking errors
+      DbClient.instance.pragma('busy_timeout = 5000');
+      
       // Run migrations
       DbClient.instance.exec(MIGRATIONS);
     }

@@ -14,7 +14,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const { 
     profile, plan, fetchProfile, fetchPlan, generatePlan, 
-    loading, warnings, developerTrace 
+    loading, warnings, developerTrace, planFetched 
   } = useFitnessStore();
 
   const [showTrace, setShowTrace] = useState(false);
@@ -26,11 +26,10 @@ export default function DashboardPage() {
   }, [fetchProfile, fetchPlan]);
 
   useEffect(() => {
-    // If no profile exists, push back to onboarding home page
-    if (!profile && !loading) {
-      router.push('/');
+    if (profile && planFetched && !plan && !loading) {
+      generatePlan();
     }
-  }, [profile, loading, router]);
+  }, [profile, planFetched, plan, loading, generatePlan]);
 
   const handleRegenerate = async () => {
     const success = await generatePlan(true);
